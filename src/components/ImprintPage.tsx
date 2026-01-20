@@ -51,7 +51,6 @@ export default function ImprintPage() {
                 <p className="text-muted-foreground">
                   E-Mail: legal@technetpro.de
                   <br />
-//                  Telefon: [bitte ergänzen – empfohlen]
                 </p>
               </section>
 
