@@ -5,11 +5,7 @@ export default function ImprintPage() {
   return (
     <div className="from-primary/5 via-background to-secondary/5 min-h-screen bg-gradient-to-br p-6">
       <div className="mx-auto max-w-3xl">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <a href="/">
             <button
               data-testid="button-back-imprint"
@@ -31,116 +27,65 @@ export default function ImprintPage() {
               Imprint (Impressum)
             </h1>
             <p className="text-muted-foreground">
-              Angaben gemäß § 5 TMG. Bitte ergänze die Platzhalter mit deinen
-              eigenen Daten.
+              Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).
             </p>
           </div>
 
           <div className="bg-card rounded-[2rem] border-none shadow-lg">
             <div className="space-y-8 p-8 md:p-12">
               <section className="space-y-3">
-                <h2 className="font-heading text-foreground text-xl font-bold">
-                  Anbieter
-                </h2>
+                <h2 className="font-heading text-foreground text-xl font-bold">Diensteanbieter</h2>
                 <p className="text-muted-foreground">
-                  [Vorname Nachname / Firma]
+                  Tim Leinich
                   <br />
-                  [Rechtsform, z. B. Einzelunternehmen/GmbH]
+                  Farbgasse 10
                   <br />
-                  [Straße und Hausnummer]
+                  73553 Alfdorf
                   <br />
-                  [PLZ Ort]
+                  Deutschland
+                </p>
+              </section>
+
+              <section className="space-y-3">
+                <h2 className="font-heading text-foreground text-xl font-bold">Kontakt</h2>
+                <p className="text-muted-foreground">
+                  E-Mail: legal@technetpro.de
                   <br />
-                  [Land, falls außerhalb Deutschlands]
+//                  Telefon: [bitte ergänzen – empfohlen]
                 </p>
               </section>
 
               <section className="space-y-3">
-                <h2 className="font-heading text-foreground text-xl font-bold">
-                  Kontakt
-                </h2>
+                <h2 className="font-heading text-foreground text-xl font-bold">Projekt</h2>
                 <p className="text-muted-foreground">
-                  E-Mail: [E-Mail-Adresse]
+                  ARK ASA Server Manager Community/Open-Source Projekt.
                   <br />
-                  Telefon: [Telefonnummer, optional]
-                </p>
-              </section>
-
-              <section className="space-y-3">
-                <h2 className="font-heading text-foreground text-xl font-bold">
-                  Vertretungsberechtigt
-                </h2>
-                <p className="text-muted-foreground">
-                  [Vertretungsberechtigte Person, falls abweichend]
-                </p>
-              </section>
-
-              <section className="space-y-3">
-                <h2 className="font-heading text-foreground text-xl font-bold">
-                  Registereintrag
-                </h2>
-                <p className="text-muted-foreground">
-                  [Registergericht, Registernummer, falls vorhanden]
-                </p>
-              </section>
-
-              <section className="space-y-3">
-                <h2 className="font-heading text-foreground text-xl font-bold">
-                  Umsatzsteuer-ID
-                </h2>
-                <p className="text-muted-foreground">
-                  [USt-IdNr. nach § 27a UStG, falls vorhanden]
-                </p>
-              </section>
-
-              <section className="space-y-3">
-                <h2 className="font-heading text-foreground text-xl font-bold">
-                  Wirtschafts-ID
-                </h2>
-                <p className="text-muted-foreground">
-                  [Wirtschafts-Identifikationsnummer, falls vorhanden]
-                </p>
-              </section>
-
-              <section className="space-y-3">
-                <h2 className="font-heading text-foreground text-xl font-bold">
-                  Aufsichtsbehörde
-                </h2>
-                <p className="text-muted-foreground">
-                  [Zuständige Aufsichtsbehörde, falls eine behördliche Zulassung
-                  erforderlich ist]
-                </p>
-              </section>
-
-              <section className="space-y-3">
-                <h2 className="font-heading text-foreground text-xl font-bold">
-                  Verantwortlich für den Inhalt (§ 18 Abs. 2 MStV)
-                </h2>
-                <p className="text-muted-foreground">
-                  [Name, Anschrift, ggf. wie oben]
-                </p>
-              </section>
-
-              <section className="space-y-3">
-                <h2 className="font-heading text-foreground text-xl font-bold">
-                  Hinweis auf Streitbeilegung
-                </h2>
-                <p className="text-muted-foreground">
-                  Die Europäische Kommission stellt eine Plattform zur
-                  Online-Streitbeilegung (OS) bereit:{' '}
+                  Repository:{' '}
                   <a
-                    href="https://ec.europa.eu/consumers/odr"
+                    href="https://github.com/Ch4r0ne/ARK-Ascended-Server-Manager-Astro"
                     className="text-primary underline"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    https://ec.europa.eu/consumers/odr
+                    https://github.com/Ch4r0ne/ARK-Ascended-Server-Manager-Astro
                   </a>
-                  . Ich bin nicht verpflichtet und nicht bereit, an einem
+                </p>
+              </section>
+
+              <section className="space-y-3">
+                <h2 className="font-heading text-foreground text-xl font-bold">
+                  Hinweis zur Streitbeilegung
+                </h2>
+                <p className="text-muted-foreground">
+                  Ich bin nicht verpflichtet und nicht bereit, an
                   Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
                   teilzunehmen.
                 </p>
               </section>
+
+              <div className="border-border/40 text-muted-foreground border-t pt-4 text-sm">
+                Stand: 20.01.2026
+              </div>
             </div>
           </div>
 
