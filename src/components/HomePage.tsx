@@ -28,6 +28,29 @@ const LICENSE_URL =
 const PUBLISHER_URL = 'https://github.com/Ch4r0ne';
 const CANONICAL_URL = 'https://ch4r0ne.github.io/ARK-Ascended-Server-Manager/';
 
+type RepoStats = {
+  stars: number;
+  forks: number;
+  openIssues: number;
+  updatedAt: string;
+};
+
+type ReleaseInfo = {
+  name: string;
+  tag: string;
+  publishedAt: string;
+  downloads: number;
+};
+
+const formatNumber = (value: number) => value.toLocaleString('de-DE');
+
+const formatDate = (value: string) =>
+  new Date(value).toLocaleDateString('de-DE', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -36,6 +59,7 @@ const Navigation = () => {
     const handleScroll = () => {
       const sections = [
         'home',
+        'story',
         'features',
         'quickstart',
         'multi-instance',
@@ -62,6 +86,7 @@ const Navigation = () => {
   }, []);
 
   const navLinks = [
+    { href: '#story', label: 'Story', id: 'story' },
     { href: '#features', label: 'Features', id: 'features' },
     { href: '#quickstart', label: 'Quickstart', id: 'quickstart' },
     { href: '#multi-instance', label: 'Multi-Instance', id: 'multi-instance' },
@@ -75,7 +100,11 @@ const Navigation = () => {
         href="/"
         className="text-primary flex items-center gap-3 transition-opacity hover:opacity-80"
       >
-        <ServerCog className="h-8 w-8" />
+        <img
+          src="/img/favicon.png"
+          alt="ARK ASA Server Manager Icon"
+          className="h-8 w-8"
+        />
         <span className="font-heading text-foreground text-2xl font-bold">
           ARK ASA Server Manager
         </span>
@@ -192,6 +221,113 @@ const Navigation = () => {
 };
 
 const Hero = () => {
+  const [repoStats, setRepoStats] = useState<RepoStats | null>(null);
+  const [releaseInfo, setReleaseInfo] = useState<ReleaseInfo | null>(null);
+  const [statsError, setStatsError] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const loadGithubStats = async () => {
+      try {
+        const fetchAllReleases = async () => {
+          const releases: Array<{ assets?: Array<{ download_count: number }> }> =
+            [];
+          let page = 1;
+
+          while (true) {
+            const response = await fetch(
+              `https://api.github.com/repos/Ch4r0ne/ARK-Ascended-Server-Manager/releases?per_page=100&page=${page}`,
+              {
+                signal: controller.signal,
+              },
+            );
+
+            if (!response.ok) {
+              throw new Error('GitHub releases response not ok');
+            }
+
+            const pageData = (await response.json()) as Array<{
+              assets?: Array<{ download_count: number }>;
+            }>;
+
+            releases.push(...pageData);
+
+            if (pageData.length < 100) {
+              break;
+            }
+
+            page += 1;
+          }
+
+          return releases;
+        };
+
+        const [repoResponse, releaseResponse, releasesData] = await Promise.all([
+          fetch(`https://api.github.com/repos/Ch4r0ne/ARK-Ascended-Server-Manager`, {
+            signal: controller.signal,
+          }),
+          fetch(
+            `https://api.github.com/repos/Ch4r0ne/ARK-Ascended-Server-Manager/releases/latest`,
+            {
+              signal: controller.signal,
+            },
+          ),
+          fetchAllReleases(),
+        ]);
+
+        if (!repoResponse.ok || !releaseResponse.ok) {
+          throw new Error('GitHub API response not ok');
+        }
+
+        const repoData = (await repoResponse.json()) as {
+          stargazers_count: number;
+          forks_count: number;
+          open_issues_count: number;
+          updated_at: string;
+        };
+
+        const releaseData = (await releaseResponse.json()) as {
+          name: string;
+          tag_name: string;
+          published_at: string;
+          assets?: Array<{ download_count: number }>;
+        };
+
+        setRepoStats({
+          stars: repoData.stargazers_count,
+          forks: repoData.forks_count,
+          openIssues: repoData.open_issues_count,
+          updatedAt: repoData.updated_at,
+        });
+
+        const totalDownloads = releasesData.reduce((sum, release) => {
+          const releaseDownloads =
+            release.assets?.reduce(
+              (assetSum, asset) => assetSum + asset.download_count,
+              0,
+            ) ?? 0;
+          return sum + releaseDownloads;
+        }, 0);
+
+        setReleaseInfo({
+          name: releaseData.name || 'Latest Release',
+          tag: releaseData.tag_name,
+          publishedAt: releaseData.published_at,
+          downloads: totalDownloads,
+        });
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          setStatsError(true);
+        }
+      }
+    };
+
+    loadGithubStats();
+
+    return () => controller.abort();
+  }, []);
+
   return (
     <section
       id="home"
@@ -207,12 +343,12 @@ const Hero = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="font-hand text-primary mb-4 inline-block -rotate-2 text-2xl">
-            Windows-first GUI für ARK: Survival Ascended
+            Professionelle Windows-GUI für ARK: Survival Ascended
           </span>
           <h1 className="font-heading text-foreground mb-6 text-5xl leading-[1.1] font-bold md:text-7xl">
-            ARK ASA Server Manager{' '}
+            ASA Server Manager{' '}
             <span className="text-primary relative inline-block">
-              for Windows
+              für Windows
               <svg
                 className="text-accent absolute -bottom-1 left-0 -z-10 h-3 w-full"
                 viewBox="0 0 100 10"
@@ -228,23 +364,9 @@ const Hero = () => {
             </span>
           </h1>
           <p className="text-muted-foreground max-w-xl text-lg leading-relaxed md:text-xl">
-            Der ARK Ascended Server Manager ist dein ASA Server Manager und
-            ARK Dedicated Server Manager für sichere Deployments, Updates und
-            tägliche Ops auf Windows.
+            Klare Workflows für Deployments, Updates und tägliche Ops – stabil,
+            nachvollziehbar und auf Windows optimiert.
           </p>
-
-          <div className="text-muted-foreground grid gap-2 text-sm md:text-base">
-            <div className="flex items-center gap-2">
-              <CheckCircle className="text-primary h-5 w-5" />
-              Ark Ascended Server Hosting, Manager for ARK Accended, Manager for
-              ASA
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="text-primary h-5 w-5" />
-              Ark Accended Server Manager, Server Manager for ASA, ASA Server
-              Manager
-            </div>
-          </div>
 
           <div className="flex flex-wrap gap-4 pt-4">
             <a href={DOWNLOAD_LATEST_URL} target="_blank" rel="noreferrer">
@@ -270,22 +392,22 @@ const Hero = () => {
             {[
               {
                 icon: ShieldCheck,
-                label: 'Safe start & safe stop',
+                label: 'Safe Start & Safe Stop',
                 color: 'text-green-600',
               },
               {
                 icon: Terminal,
-                label: 'SteamCMD updates',
+                label: 'SteamCMD Updates',
                 color: 'text-blue-600',
               },
               {
                 icon: Lock,
-                label: 'SHA256 checksums',
+                label: 'SHA256 Checksums',
                 color: 'text-purple-600',
               },
               {
                 icon: Settings,
-                label: 'Staged INI workflow',
+                label: 'Staged INI Workflow',
                 color: 'text-orange-600',
               },
             ].map((badge, idx) => (
@@ -328,10 +450,20 @@ const Hero = () => {
               <Github size={20} />
             </div>
             <div>
-              <p className="text-sm font-bold">GitHub Stats</p>
-              <p className="text-muted-foreground text-xs">
-                Live data coming soon
-              </p>
+              <p className="text-sm font-bold">GitHub Live-Status</p>
+              {repoStats ? (
+                <p className="text-muted-foreground text-xs">
+                  {formatNumber(repoStats.stars)} Stars ·{' '}
+                  {formatNumber(repoStats.forks)} Forks ·{' '}
+                  {formatNumber(repoStats.openIssues)} Issues
+                </p>
+              ) : (
+                <p className="text-muted-foreground text-xs">
+                  {statsError
+                    ? 'Live-Daten derzeit nicht verfügbar.'
+                    : 'Live-Daten werden geladen.'}
+                </p>
+              )}
             </div>
           </motion.div>
 
@@ -349,10 +481,19 @@ const Hero = () => {
               <Download size={20} />
             </div>
             <div>
-              <p className="text-sm font-bold">Release info</p>
-              <p className="text-muted-foreground text-xs">
-                Version, downloads, updates
-              </p>
+              <p className="text-sm font-bold">Latest Release</p>
+              {releaseInfo ? (
+                <p className="text-muted-foreground text-xs">
+                  {releaseInfo.tag} · {formatDate(releaseInfo.publishedAt)} ·{' '}
+                  {formatNumber(releaseInfo.downloads)} Gesamt-Downloads
+                </p>
+              ) : (
+                <p className="text-muted-foreground text-xs">
+                  {statsError
+                    ? 'Release-Daten derzeit nicht verfügbar.'
+                    : 'Release-Daten werden geladen.'}
+                </p>
+              )}
             </div>
           </motion.div>
         </motion.div>
@@ -412,11 +553,11 @@ const Features = () => {
             ARK Dedicated Server Manager Features
           </span>
           <h2 className="font-heading text-foreground text-4xl font-bold md:text-5xl">
-            Built for ARK ASA operations
+            Entwickelt für professionelle ASA-Operations
           </h2>
           <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-            Der ASA Server Manager liefert die Tools, die du für stabile
-            Windows-Deployments brauchst.
+            Klar strukturierte Tools für stabile Windows-Deployments und
+            nachvollziehbare Prozesse.
           </p>
         </div>
 
@@ -469,26 +610,79 @@ const Features = () => {
   );
 };
 
+const Story = () => {
+  return (
+    <section id="story" className="relative px-6 py-24 md:px-12 lg:px-24">
+      <div className="mx-auto grid max-w-6xl gap-10 rounded-[2.5rem] bg-white/70 p-10 shadow-lg md:grid-cols-[1.1fr_0.9fr]">
+        <div className="space-y-5">
+          <span className="font-hand text-primary text-xl">
+            Unsere Entstehungsgeschichte
+          </span>
+          <h2 className="font-heading text-foreground text-4xl font-bold md:text-5xl">
+            Vom PowerShell-Skript zur professionellen Manager-Suite
+          </h2>
+          <p className="text-muted-foreground text-lg leading-relaxed">
+            Angefangen hat alles mit einem kleinen PowerShell-Skript, das unsere
+            ersten Serverstarts automatisierte. Durch Community-Feedback wurde
+            daraus Schritt für Schritt ein vollständiger Manager – heute als
+            Python-basierte Lösung, die Enterprise-Prozesse auf Windows abbildet.
+          </p>
+          <p className="text-muted-foreground">
+            Dieser Weg prägt unsere Prioritäten: stabile Releases, klare
+            Workflows und nachvollziehbare Updates für Teams, die täglich mit
+            ASA-Servern arbeiten.
+          </p>
+        </div>
+        <div className="grid gap-4">
+          {[
+            {
+              title: 'Phase 1 · PowerShell',
+              detail: 'Automatisierte erste Starts und Updates.',
+            },
+            {
+              title: 'Phase 2 · Community',
+              detail: 'Wünsche aus der Community wurden zu Features.',
+            },
+            {
+              title: 'Phase 3 · Python',
+              detail: 'Skalierbarer Manager mit klaren Ops-Prozessen.',
+            },
+          ].map((item) => (
+            <div
+              key={item.title}
+              className="bg-card border-border/40 rounded-2xl border p-5 shadow-sm"
+            >
+              <p className="text-primary text-sm font-semibold">{item.title}</p>
+              <p className="text-muted-foreground text-sm">{item.detail}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Quickstart = () => {
   const steps = [
     {
       step: 'Step 1',
-      title: 'Download and run',
-      detail: 'Latest EXE from GitHub Releases, then start ARK-ASA-Manager.exe.',
+      title: 'Download & Start',
+      detail:
+        'Aktuelle EXE aus den GitHub Releases laden und ARK-ASA-Manager.exe starten.',
       icon: <Download className="text-primary h-8 w-8" />,
     },
     {
       step: 'Step 2',
-      title: 'First install',
+      title: 'Ersteinrichtung',
       detail:
-        'Run “First Install” once, configure paths, ports, and server settings.',
+        'Einmalig „First Install“ ausführen und Pfade, Ports sowie Settings setzen.',
       icon: <Settings className="text-primary h-8 w-8" />,
     },
     {
       step: 'Step 3',
-      title: 'Operate',
+      title: 'Betrieb',
       detail:
-        'Start server, safe stop, keep config changes staged and controlled.',
+        'Server starten, sicher stoppen, Änderungen kontrolliert ausrollen.',
       icon: <ServerCog className="text-primary h-8 w-8" />,
     },
   ];
@@ -499,7 +693,7 @@ const Quickstart = () => {
         <div className="mb-16 space-y-4 text-center">
           <span className="font-hand text-primary text-xl">Quickstart</span>
           <h2 className="font-heading text-foreground text-4xl font-bold md:text-5xl">
-            Get your ASA server running fast
+            ASA-Server in wenigen Minuten produktiv
           </h2>
         </div>
 
@@ -550,7 +744,7 @@ const MultiInstance = () => {
         transition={{ duration: 0.6 }}
       >
         <h3 className="font-heading text-foreground mb-6 text-center text-3xl font-bold md:text-4xl">
-          Multi-Instance & Cluster ready
+          Multi-Instance & Cluster-ready
         </h3>
         <p className="text-muted-foreground mb-8 text-center text-lg">
           Mehrere Instanzen ohne Kollisionen dank klarer Trennung pro Server.
@@ -589,11 +783,11 @@ const Security = () => {
             Trust & Security
           </span>
           <h2 className="font-heading text-foreground text-4xl font-bold md:text-5xl">
-            Verified releases, safer operations
+            Verifizierte Releases, sichere Abläufe
           </h2>
           <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-            Source of truth: GitHub Releases. Verify every download before you
-            run.
+            Quelle der Wahrheit: GitHub Releases. Jede Datei vor dem Einsatz
+            verifizieren.
           </p>
         </div>
 
@@ -606,7 +800,7 @@ const Security = () => {
               <code>Get-FileHash -Algorithm SHA256 ".\\ARK-ASA-Manager.exe"</code>
             </div>
             <p className="text-muted-foreground text-sm">
-              Compare the output with the checksum published in the release.
+              Ausgabe mit der SHA256-Checksumme der Release vergleichen.
             </p>
           </div>
 
@@ -709,7 +903,11 @@ export const Footer = () => {
             className="flex flex-col justify-center space-y-3"
           >
             <div className="flex items-center gap-3">
-              <ServerCog className="text-primary h-7 w-7" />
+              <img
+                src="/img/favicon.png"
+                alt="ARK ASA Server Manager Icon"
+                className="h-7 w-7"
+              />
               <h3 className="font-heading text-foreground text-lg font-bold">
                 ARK ASA Server Manager
               </h3>
@@ -840,6 +1038,7 @@ export default function Home() {
     <div className="bg-background selection:bg-primary/20 selection:text-primary-foreground min-h-screen">
       <Navigation />
       <Hero />
+      <Story />
       <Features />
       <Quickstart />
       <MultiInstance />
@@ -855,11 +1054,11 @@ export default function Home() {
             className="mb-12 space-y-4 text-center"
           >
             <h2 className="font-heading text-foreground text-4xl font-bold md:text-5xl">
-              Ready to manage your ASA servers?
+              Bereit für saubere ASA-Operations?
             </h2>
             <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-              Download the ARK Ascended Server Manager or open a feature request
-              on GitHub.
+              Lade den ARK Ascended Server Manager oder teile Wünsche auf
+              GitHub.
             </p>
           </motion.div>
 
@@ -867,9 +1066,9 @@ export default function Home() {
             {[
               {
                 id: 'cta-download',
-                title: 'Download Latest',
+                title: 'Download',
                 description:
-                  'Get the newest Windows build from GitHub Releases.',
+                  'Neueste Windows-Version aus den GitHub Releases.',
                 href: DOWNLOAD_LATEST_URL,
                 testId: 'button-cta-download',
                 icon: <Download className="text-primary h-8 w-8" />,
@@ -878,16 +1077,15 @@ export default function Home() {
                 id: 'cta-repo',
                 title: 'GitHub Repo',
                 description:
-                  'Browse source, roadmap, and upcoming improvements.',
+                  'Source, Roadmap und kommende Verbesserungen.',
                 href: REPO_URL,
                 testId: 'button-cta-repo',
                 icon: <Github className="text-primary h-8 w-8" />,
               },
               {
                 id: 'cta-issue',
-                title: 'Issue / Feature Request',
-                description:
-                  'Share feedback or request new functionality.',
+                title: 'Issue / Feature',
+                description: 'Feedback teilen oder neue Funktionen vorschlagen.',
                 href: ISSUE_URL,
                 testId: 'button-cta-issue',
                 icon: <LifeBuoy className="text-primary h-8 w-8" />,
