@@ -970,6 +970,18 @@ export const Footer = () => {
                 >
                   License
                 </a>
+                <a
+                  href="/imprint"
+                  className="text-muted-foreground hover:text-primary w-fit text-sm transition-colors"
+                >
+                  Imprint
+                </a>
+                <a
+                  href="/privacy"
+                  className="text-muted-foreground hover:text-primary w-fit text-sm transition-colors"
+                >
+                  Privacy Policy
+                </a>
               </div>
             </div>
           </motion.div>
