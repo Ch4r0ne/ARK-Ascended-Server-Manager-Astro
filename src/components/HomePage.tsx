@@ -1,18 +1,32 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Heart,
-  Sparkles,
+  Download,
   Menu,
   X,
-  PawPrint,
+  Github,
+  ShieldCheck,
+  ServerCog,
+  Settings,
+  Terminal,
+  Database,
+  CheckCircle,
+  Lock,
+  Network,
   Users,
   BookOpen,
-  Compass,
-  Star,
-  Lock,
-  CheckCircle,
+  LifeBuoy,
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
+
+const DOWNLOAD_LATEST_URL =
+  'https://github.com/Ch4r0ne/ARK-Ascended-Server-Manager/releases/latest';
+const REPO_URL = 'https://github.com/Ch4r0ne/ARK-Ascended-Server-Manager';
+const ISSUE_URL =
+  'https://github.com/Ch4r0ne/ARK-Ascended-Server-Manager/issues/new/choose';
+const LICENSE_URL =
+  'https://github.com/Ch4r0ne/ARK-Ascended-Server-Manager/blob/main/LICENSE';
+const PUBLISHER_URL = 'https://github.com/Ch4r0ne';
+const CANONICAL_URL = 'https://ch4r0ne.github.io/ARK-Ascended-Server-Manager/';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +34,15 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'features', 'community', 'wisdom', 'cta'];
+      const sections = [
+        'home',
+        'features',
+        'quickstart',
+        'multi-instance',
+        'security',
+        'faq',
+        'cta',
+      ];
       let current = 'home';
 
       for (const section of sections) {
@@ -40,9 +62,11 @@ const Navigation = () => {
   }, []);
 
   const navLinks = [
-    { href: '#features', label: 'Philosophy', id: 'features' },
-    { href: '#community', label: 'Community', id: 'community' },
-    { href: '#wisdom', label: 'Wisdom', id: 'wisdom' },
+    { href: '#features', label: 'Features', id: 'features' },
+    { href: '#quickstart', label: 'Quickstart', id: 'quickstart' },
+    { href: '#multi-instance', label: 'Multi-Instance', id: 'multi-instance' },
+    { href: '#security', label: 'Security', id: 'security' },
+    { href: '#faq', label: 'FAQ', id: 'faq' },
   ];
 
   return (
@@ -51,13 +75,12 @@ const Navigation = () => {
         href="/"
         className="text-primary flex items-center gap-3 transition-opacity hover:opacity-80"
       >
-        <PawPrint className="h-8 w-8" />
+        <ServerCog className="h-8 w-8" />
         <span className="font-heading text-foreground text-2xl font-bold">
-          Purrfectly Zen
+          ARK ASA Server Manager
         </span>
       </a>
 
-      {/* Desktop Nav */}
       <div className="hidden items-center gap-8 font-medium md:flex">
         {navLinks.map((link) => (
           <a
@@ -82,17 +105,16 @@ const Navigation = () => {
             </motion.div>
           </a>
         ))}
-        <a href="/join">
+        <a href={DOWNLOAD_LATEST_URL} target="_blank" rel="noreferrer">
           <button
-            data-testid="button-join-nav"
+            data-testid="button-download-nav"
             className="font-heading bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 py-2 font-bold shadow-lg transition-all hover:scale-105 hover:shadow-xl"
           >
-            Join the Clowder
+            Download Latest
           </button>
         </a>
       </div>
 
-      {/* Mobile Nav Toggle */}
       <button
         className="text-foreground bg-primary/10 hover:bg-primary/25 rounded-full p-2 transition-colors md:hidden"
         onClick={() => setIsOpen(!isOpen)}
@@ -101,7 +123,6 @@ const Navigation = () => {
         {isOpen ? <X /> : <Menu />}
       </button>
 
-      {/* Mobile Nav Menu */}
       <AnimatePresence mode="wait">
         {isOpen && (
           <motion.div
@@ -147,19 +168,18 @@ const Navigation = () => {
               }}
             >
               <a
-                href="/join"
+                href={DOWNLOAD_LATEST_URL}
                 className="block w-full"
                 onClick={() => setIsOpen(false)}
+                target="_blank"
+                rel="noreferrer"
               >
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <button
-                    data-testid="button-join-mobile"
+                    data-testid="button-download-mobile"
                     className="font-heading bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-full py-4 font-medium shadow-lg transition-all hover:shadow-xl"
                   >
-                    Join the Clowder
+                    Download Latest
                   </button>
                 </motion.div>
               </a>
@@ -177,7 +197,6 @@ const Hero = () => {
       id="home"
       className="relative flex min-h-[90vh] flex-col items-center overflow-hidden px-6 py-12 md:flex-row md:px-12 lg:px-24"
     >
-      {/* Decorative Blobs */}
       <div className="bg-primary/10 absolute top-[-10%] left-[-10%] -z-10 h-[500px] w-[500px] rounded-full blur-3xl" />
       <div className="bg-accent/30 absolute right-[-5%] bottom-[10%] -z-10 h-[400px] w-[400px] rounded-full blur-3xl" />
 
@@ -188,12 +207,12 @@ const Hero = () => {
           transition={{ duration: 0.6 }}
         >
           <span className="font-hand text-primary mb-4 inline-block -rotate-2 text-2xl">
-            Welcome home, human!
+            Windows-first GUI für ARK: Survival Ascended
           </span>
           <h1 className="font-heading text-foreground mb-6 text-5xl leading-[1.1] font-bold md:text-7xl">
-            Let's find your inner{' '}
+            ARK ASA Server Manager{' '}
             <span className="text-primary relative inline-block">
-              Zen
+              for Windows
               <svg
                 className="text-accent absolute -bottom-1 left-0 -z-10 h-3 w-full"
                 viewBox="0 0 100 10"
@@ -206,31 +225,69 @@ const Hero = () => {
                   fill="none"
                 />
               </svg>
-            </span>{' '}
-            <br />
-            with a cat!
+            </span>
           </h1>
-          <p className="text-muted-foreground max-w-md text-lg leading-relaxed md:text-xl">
-            The purrfect place to disconnect from the noise and reconnect with
-            what matters: peace, presence, and gentle purrs.
+          <p className="text-muted-foreground max-w-xl text-lg leading-relaxed md:text-xl">
+            Der ARK Ascended Server Manager ist dein ASA Server Manager und
+            ARK Dedicated Server Manager für sichere Deployments, Updates und
+            tägliche Ops auf Windows.
           </p>
 
-          {/* Trust Badges */}
+          <div className="text-muted-foreground grid gap-2 text-sm md:text-base">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="text-primary h-5 w-5" />
+              Ark Ascended Server Hosting, Manager for ARK Accended, Manager for
+              ASA
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="text-primary h-5 w-5" />
+              Ark Accended Server Manager, Server Manager for ASA, ASA Server
+              Manager
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-4 pt-4">
+            <a href={DOWNLOAD_LATEST_URL} target="_blank" rel="noreferrer">
+              <button className="font-heading bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2 rounded-full px-6 py-3 font-bold shadow-lg transition-all hover:scale-105 hover:shadow-xl">
+                <Download className="h-5 w-5" />
+                Download Latest
+              </button>
+            </a>
+            <a href={REPO_URL} target="_blank" rel="noreferrer">
+              <button className="font-heading border-border text-foreground hover:border-primary flex items-center gap-2 rounded-full border px-6 py-3 font-bold shadow-sm transition-all hover:scale-105">
+                <Github className="h-5 w-5" />
+                GitHub Repo
+              </button>
+            </a>
+          </div>
+
           <motion.div
-            className="flex flex-wrap gap-4 pt-4"
+            className="flex flex-wrap gap-4 pt-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             {[
-              { icon: Star, label: '5 Rated', color: 'text-yellow-600' },
-              { icon: Lock, label: '100% Free', color: 'text-green-600' },
               {
-                icon: CheckCircle,
-                label: 'Science-Backed',
+                icon: ShieldCheck,
+                label: 'Safe start & safe stop',
+                color: 'text-green-600',
+              },
+              {
+                icon: Terminal,
+                label: 'SteamCMD updates',
+                color: 'text-blue-600',
+              },
+              {
+                icon: Lock,
+                label: 'SHA256 checksums',
                 color: 'text-purple-600',
               },
-              { icon: Heart, label: 'Community Loved', color: 'text-red-600' },
+              {
+                icon: Settings,
+                label: 'Staged INI workflow',
+                color: 'text-orange-600',
+              },
             ].map((badge, idx) => (
               <motion.div
                 key={idx}
@@ -239,9 +296,7 @@ const Hero = () => {
                 transition={{ delay: 0.4 + idx * 0.1 }}
                 className="bg-secondary/30 border-border/40 flex items-center justify-center gap-2 rounded-full border px-3 py-2"
               >
-                <badge.icon
-                  className={`h-4 w-4 flex-shrink-0 ${badge.color}`}
-                />
+                <badge.icon className={`h-4 w-4 flex-shrink-0 ${badge.color}`} />
                 <span className="text-foreground text-xs font-semibold">
                   {badge.label}
                 </span>
@@ -253,33 +308,33 @@ const Hero = () => {
 
       <div className="relative mt-12 w-full md:mt-0 md:w-1/2">
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
+          initial={{ opacity: 0, scale: 0.8, rotate: 2 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="relative z-10"
         >
           <img
-            src="/images/cute_fluffy_cat_sleeping_on_a_cloud.png"
-            alt="Sleeping zen cat on a cloud"
-            className="h-auto w-full transform rounded-[3rem] shadow-2xl transition-transform duration-700 hover:rotate-0 md:rotate-3"
+            src="/img/ASA_Server_Manager_Preview_2.png"
+            alt="ARK ASA Server Manager UI preview"
+            className="h-auto w-full transform rounded-[3rem] shadow-2xl transition-transform duration-700 hover:rotate-0 md:rotate-2"
           />
 
-          {/* Floating Cards */}
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-            className="bg-card absolute -bottom-8 -left-4 flex max-w-[200px] items-center gap-3 rounded-2xl p-4 shadow-lg md:left-10"
+            className="bg-card absolute -bottom-8 -left-4 flex max-w-[220px] items-center gap-3 rounded-2xl p-4 shadow-lg md:left-10"
           >
             <div className="rounded-full bg-green-100 p-2 text-green-600">
-              <Sparkles size={20} />
+              <Github size={20} />
             </div>
             <div>
-              <p className="text-sm font-bold">99% Stress Free!</p>
-              <p className="text-muted-foreground text-xs">Guaranteed purrs</p>
+              <p className="text-sm font-bold">GitHub Stats</p>
+              <p className="text-muted-foreground text-xs">
+                Live data coming soon
+              </p>
             </div>
           </motion.div>
 
-          {/* Second Badge */}
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{
@@ -288,14 +343,16 @@ const Hero = () => {
               ease: 'easeInOut',
               delay: 0.5,
             }}
-            className="bg-card absolute -top-4 -right-4 flex max-w-[200px] items-center gap-3 rounded-2xl p-4 shadow-lg md:-right-8"
+            className="bg-card absolute -top-4 -right-4 flex max-w-[220px] items-center gap-3 rounded-2xl p-4 shadow-lg md:-right-8"
           >
             <div className="rounded-full bg-blue-100 p-2 text-blue-600">
-              <Users size={20} />
+              <Download size={20} />
             </div>
             <div>
-              <p className="text-sm font-bold">500K+ Members</p>
-              <p className="text-muted-foreground text-xs">Growing community</p>
+              <p className="text-sm font-bold">Release info</p>
+              <p className="text-muted-foreground text-xs">
+                Version, downloads, updates
+              </p>
             </div>
           </motion.div>
         </motion.div>
@@ -307,13 +364,13 @@ const Hero = () => {
 const FeatureCard = ({
   title,
   desc,
-  img,
+  icon,
   delay,
   testId,
 }: {
   title: string;
   desc: string;
-  img: string;
+  icon: ReactNode;
   delay: number;
   testId: string;
 }) => (
@@ -327,13 +384,10 @@ const FeatureCard = ({
   >
     <div className="bg-card h-full overflow-hidden rounded-[2rem] border-none shadow-lg transition-shadow duration-300 hover:shadow-xl">
       <div className="flex h-full flex-col p-0">
-        <div className="bg-secondary/30 flex h-48 items-center justify-center p-8">
-          <motion.img
-            src={img}
-            alt={title}
-            className="h-32 w-auto object-contain drop-shadow-md"
-            whileHover={{ scale: 1.1 }}
-          />
+        <div className="bg-secondary/30 flex h-32 items-center justify-center p-8">
+          <div className="bg-primary/15 flex h-16 w-16 items-center justify-center rounded-full">
+            {icon}
+          </div>
         </div>
         <div className="flex flex-1 flex-col items-center p-8 text-center">
           <h3 className="font-heading text-foreground mb-3 text-2xl font-bold">
@@ -355,34 +409,59 @@ const Features = () => {
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 space-y-4 text-center">
           <span className="font-hand text-primary text-xl">
-            Why cats are gurus
+            ARK Dedicated Server Manager Features
           </span>
           <h2 className="font-heading text-foreground text-4xl font-bold md:text-5xl">
-            The Way of the Meow
+            Built for ARK ASA operations
           </h2>
+          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
+            Der ASA Server Manager liefert die Tools, die du für stabile
+            Windows-Deployments brauchst.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <FeatureCard
-            title="Master of Chill"
-            desc="Learn the ancient art of doing absolutely nothing and looking fabulous while doing it."
-            img="/images/meditating_cat_illustration.png"
+            title="Safe start and safe stop"
+            desc="Controlled shutdown path to reduce save loss and config drift."
+            icon={<ShieldCheck className="text-primary h-8 w-8" />}
             delay={0.1}
-            testId="card-feature-chill"
+            testId="card-feature-safe"
           />
           <FeatureCard
-            title="Playful Spirit"
-            desc="Rediscover your inner kitten. Chase dreams (and butterflies) with reckless abandon."
-            img="/images/playful_cat_illustration.png"
+            title="Staged INI workflow"
+            desc="Edit safely, apply on start, restore baseline on safe stop."
+            icon={<Settings className="text-primary h-8 w-8" />}
             delay={0.2}
-            testId="card-feature-playful"
+            testId="card-feature-ini"
           />
           <FeatureCard
-            title="Soul Nourishment"
-            desc="Feed your heart with unconditional love, head bumps, and the occasional slow blink."
-            img="/images/cat_with_food_illustration.png"
+            title="Predictable maintenance"
+            desc="SteamCMD install, update, and validate in one workflow."
+            icon={<Terminal className="text-primary h-8 w-8" />}
             delay={0.3}
-            testId="card-feature-nourishment"
+            testId="card-feature-steamcmd"
+          />
+          <FeatureCard
+            title="Operator tooling"
+            desc="RCON-driven admin tasks with guardrails for daily ops."
+            icon={<ServerCog className="text-primary h-8 w-8" />}
+            delay={0.4}
+            testId="card-feature-rcon"
+          />
+          <FeatureCard
+            title="Backups and retention"
+            desc="Structured backups and retention logic for fast restores."
+            icon={<Database className="text-primary h-8 w-8" />}
+            delay={0.5}
+            testId="card-feature-backups"
+          />
+          <FeatureCard
+            title="Release integrity"
+            desc="SHA256 checksums make every download verifiable."
+            icon={<Lock className="text-primary h-8 w-8" />}
+            delay={0.6}
+            testId="card-feature-sha"
           />
         </div>
       </div>
@@ -390,71 +469,62 @@ const Features = () => {
   );
 };
 
-const Community = () => {
-  const testimonials = [
+const Quickstart = () => {
+  const steps = [
     {
-      name: 'Sarah Chen',
-      role: 'Meditation Teacher',
-      quote:
-        'Purrfectly Zen completely transformed how I view mindfulness. My cat approves too.',
-      image: '/images/sarah_chen_meditation_teacher_portrait.png',
+      step: 'Step 1',
+      title: 'Download and run',
+      detail: 'Latest EXE from GitHub Releases, then start ARK-ASA-Manager.exe.',
+      icon: <Download className="text-primary h-8 w-8" />,
     },
     {
-      name: 'Marcus Johnson',
-      role: 'Wellness Coach',
-      quote:
-        'The cat philosophy here resonates deeply. Simplicity, presence, and the power of a good nap.',
-      image: '/images/marcus_johnson_wellness_coach_portrait.png',
+      step: 'Step 2',
+      title: 'First install',
+      detail:
+        'Run “First Install” once, configure paths, ports, and server settings.',
+      icon: <Settings className="text-primary h-8 w-8" />,
     },
     {
-      name: 'Elena Rodriguez',
-      role: 'Creative Director',
-      quote:
-        "I've never felt more zen. The community here truly understands the meow of life.",
-      image: '/images/elena_rodriguez_creative_director_portrait.png',
+      step: 'Step 3',
+      title: 'Operate',
+      detail:
+        'Start server, safe stop, keep config changes staged and controlled.',
+      icon: <ServerCog className="text-primary h-8 w-8" />,
     },
   ];
 
   return (
-    <section id="community" className="relative px-6 py-24 md:px-12 lg:px-24">
+    <section id="quickstart" className="relative px-6 py-24 md:px-12 lg:px-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 space-y-4 text-center">
-          <span className="font-hand text-primary text-xl">
-            Join our clowder
-          </span>
+          <span className="font-hand text-primary text-xl">Quickstart</span>
           <h2 className="font-heading text-foreground text-4xl font-bold md:text-5xl">
-            Community Stories
+            Get your ASA server running fast
           </h2>
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {testimonials.map((person, idx) => (
+          {steps.map((step, idx) => (
             <motion.div
-              key={idx}
+              key={step.step}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
             >
               <div className="bg-card h-full rounded-[2rem] border-none shadow-lg transition-shadow duration-300 hover:shadow-xl">
-                <div className="flex h-full flex-col p-8">
-                  <div className="mb-6 flex items-center gap-4">
-                    <img
-                      src={person.image}
-                      alt={person.name}
-                      className="h-14 w-14 rounded-full object-cover"
-                    />
-                    <div>
-                      <p className="font-heading text-foreground font-bold">
-                        {person.name}
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        {person.role}
-                      </p>
-                    </div>
+                <div className="flex h-full flex-col gap-4 p-8">
+                  <div className="bg-primary/15 flex h-14 w-14 items-center justify-center rounded-full">
+                    {step.icon}
                   </div>
-                  <p className="text-muted-foreground flex-1 leading-relaxed italic">
-                    "{person.quote}"
+                  <p className="text-primary text-sm font-semibold">
+                    {step.step}
+                  </p>
+                  <h3 className="font-heading text-foreground text-2xl font-bold">
+                    {step.title}
+                  </h3>
+                  <p className="text-muted-foreground flex-1 leading-relaxed">
+                    {step.detail}
                   </p>
                 </div>
               </div>
@@ -466,31 +536,162 @@ const Community = () => {
   );
 };
 
-const QuoteSection = () => {
+const MultiInstance = () => {
   return (
     <section
-      id="wisdom"
-      className="bg-secondary/20 flex items-center justify-center px-6 py-24 text-center"
+      id="multi-instance"
+      className="bg-secondary/20 flex items-center justify-center px-6 py-24"
     >
       <motion.div
-        className="relative max-w-3xl"
+        className="relative mx-auto max-w-5xl"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <h3
-          data-testid="text-quote"
-          className="font-hand text-foreground/80 text-3xl leading-relaxed md:text-5xl"
-        >
-          Time spent with cats is never wasted. It is a gentle reminder that we
-          are here to be loved, and to nap.
+        <h3 className="font-heading text-foreground mb-6 text-center text-3xl font-bold md:text-4xl">
+          Multi-Instance & Cluster ready
         </h3>
-
-        <div className="font-heading text-primary mt-8 font-bold">
-          — Sigmund Freud (probably)
+        <p className="text-muted-foreground mb-8 text-center text-lg">
+          Mehrere Instanzen ohne Kollisionen dank klarer Trennung pro Server.
+        </p>
+        <div className="grid gap-4 rounded-[2rem] bg-white/80 p-8 shadow-lg">
+          <div className="flex items-start gap-3">
+            <Network className="text-primary mt-1 h-6 w-6" />
+            <p className="text-muted-foreground">
+              Unique ports pro Instance: game, query und RCON.
+            </p>
+          </div>
+          <div className="flex items-start gap-3">
+            <Database className="text-primary mt-1 h-6 w-6" />
+            <p className="text-muted-foreground">
+              AltSaveDirectoryName nutzen, um Saves sauber zu isolieren.
+            </p>
+          </div>
+          <div className="flex items-start gap-3">
+            <Users className="text-primary mt-1 h-6 w-6" />
+            <p className="text-muted-foreground">
+              Cluster IDs konsistent halten für zuverlässige Transfers.
+            </p>
+          </div>
         </div>
       </motion.div>
+    </section>
+  );
+};
+
+const Security = () => {
+  return (
+    <section id="security" className="relative px-6 py-24 md:px-12 lg:px-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-12 space-y-4 text-center">
+          <span className="font-hand text-primary text-xl">
+            Trust & Security
+          </span>
+          <h2 className="font-heading text-foreground text-4xl font-bold md:text-5xl">
+            Verified releases, safer operations
+          </h2>
+          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
+            Source of truth: GitHub Releases. Verify every download before you
+            run.
+          </p>
+        </div>
+
+        <div className="grid gap-8 rounded-[2rem] bg-white/80 p-8 shadow-lg md:grid-cols-2">
+          <div className="space-y-4">
+            <h3 className="font-heading text-foreground text-2xl font-bold">
+              SHA256 Verify Command
+            </h3>
+            <div className="bg-secondary/30 text-foreground rounded-xl p-4 text-sm">
+              <code>Get-FileHash -Algorithm SHA256 ".\\ARK-ASA-Manager.exe"</code>
+            </div>
+            <p className="text-muted-foreground text-sm">
+              Compare the output with the checksum published in the release.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="font-heading text-foreground text-2xl font-bold">
+              Security best practices
+            </h3>
+            <ul className="text-muted-foreground space-y-3 text-sm">
+              <li className="flex items-start gap-2">
+                <Lock className="text-primary mt-0.5 h-4 w-4" />
+                RCON nicht ins Public Internet exponieren.
+              </li>
+              <li className="flex items-start gap-2">
+                <ShieldCheck className="text-primary mt-0.5 h-4 w-4" />
+                Firewall allow lists oder VPN für Admin Access.
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="text-primary mt-0.5 h-4 w-4" />
+                Updates über SteamCMD install/update/validate.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Faq = () => {
+  const faqs = [
+    {
+      question: 'Welche Ports werden typischerweise genutzt? ',
+      answer:
+        'UDP 7777 (game), UDP 27015 (query), TCP 27020 (RCON wenn aktiviert).',
+    },
+    {
+      question: 'Was muss ich bei Multi-Instance beachten?',
+      answer:
+        'Unique ports + AltSaveDirectoryName + configs separieren, staged INI workflow nutzen.',
+    },
+    {
+      question: 'Was bedeutet staged INI workflow?',
+      answer:
+        'Änderungen werden sicher vorbereitet, beim Start angewendet und beim Safe Stop zurückgesetzt.',
+    },
+    {
+      question: 'RCON exposure?',
+      answer: 'No. RCON niemals öffentlich ins Internet stellen.',
+    },
+    {
+      question: 'Wie laufen Updates?',
+      answer: 'Über SteamCMD install/update/validate.',
+    },
+  ];
+
+  return (
+    <section id="faq" className="relative bg-white/50 px-6 py-24 md:px-12 lg:px-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-12 space-y-4 text-center">
+          <span className="font-hand text-primary text-xl">FAQ</span>
+          <h2 className="font-heading text-foreground text-4xl font-bold md:text-5xl">
+            Antworten für ASA Server Manager Ops
+          </h2>
+        </div>
+
+        <div className="grid gap-6">
+          {faqs.map((faq, idx) => (
+            <motion.div
+              key={faq.question}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: idx * 0.05 }}
+              className="bg-card rounded-[1.5rem] p-6 shadow-md"
+            >
+              <h3 className="font-heading text-foreground mb-2 text-lg font-bold">
+                {faq.question}
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                {faq.answer}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
@@ -500,7 +701,6 @@ export const Footer = () => {
     <footer className="from-secondary/5 via-background to-primary/5 border-border/40 relative border-t bg-gradient-to-br px-6 py-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8 lg:gap-12">
-          {/* Left Column: Brand */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -509,18 +709,17 @@ export const Footer = () => {
             className="flex flex-col justify-center space-y-3"
           >
             <div className="flex items-center gap-3">
-              <PawPrint className="text-primary h-7 w-7" />
+              <ServerCog className="text-primary h-7 w-7" />
               <h3 className="font-heading text-foreground text-lg font-bold">
-                Purrfectly Zen
+                ARK ASA Server Manager
               </h3>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Find your zen, one breath at a time. Meditate with your inner cat
-              and discover peace within.
+              Windows GUI für ARK: Survival Ascended Dedicated Server mit klaren
+              Ops-Workflows.
             </p>
           </motion.div>
 
-          {/* Center Column: Links by Category */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -528,75 +727,57 @@ export const Footer = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="space-y-6"
           >
-            {/* Learn */}
             <div className="space-y-3">
               <div className="text-primary flex items-center gap-2">
                 <BookOpen className="h-5 w-5" />
-                <span className="font-heading text-sm font-bold">Learn</span>
+                <span className="font-heading text-sm font-bold">Resources</span>
               </div>
               <div className="flex flex-col gap-2 pl-7">
                 <a
-                  href="/guide"
-                  data-testid="link-footer-guide"
+                  href={DOWNLOAD_LATEST_URL}
                   className="text-muted-foreground hover:text-primary w-fit text-sm transition-colors"
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  Getting Started
+                  Download Latest
                 </a>
                 <a
-                  href="/faq"
-                  data-testid="link-footer-faq"
+                  href={REPO_URL}
                   className="text-muted-foreground hover:text-primary w-fit text-sm transition-colors"
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  FAQ
+                  GitHub Repo
+                </a>
+                <a
+                  href={ISSUE_URL}
+                  className="text-muted-foreground hover:text-primary w-fit text-sm transition-colors"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Issues / Feature Requests
                 </a>
               </div>
             </div>
 
-            {/* Community */}
             <div className="space-y-3">
               <div className="text-primary flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                <span className="font-heading text-sm font-bold">
-                  Community
-                </span>
-              </div>
-              <div className="flex flex-col gap-2 pl-7">
-                <a
-                  href="/contact"
-                  data-testid="link-footer-contact"
-                  className="text-muted-foreground hover:text-primary w-fit text-sm transition-colors"
-                >
-                  Contact Us
-                </a>
-                <a
-                  href="/about"
-                  data-testid="link-footer-about-community"
-                  className="text-muted-foreground hover:text-primary w-fit text-sm transition-colors"
-                >
-                  About Us
-                </a>
-              </div>
-            </div>
-
-            {/* Legal */}
-            <div className="space-y-3">
-              <div className="text-primary flex items-center gap-2">
-                <Lock className="h-5 w-5" />
+                <ShieldCheck className="h-5 w-5" />
                 <span className="font-heading text-sm font-bold">Legal</span>
               </div>
               <div className="flex flex-col gap-2 pl-7">
                 <a
-                  href="/privacy"
-                  data-testid="link-footer-privacy"
+                  href={LICENSE_URL}
                   className="text-muted-foreground hover:text-primary w-fit text-sm transition-colors"
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  Privacy Policy
+                  License
                 </a>
               </div>
             </div>
           </motion.div>
 
-          {/* Right Column: CTA */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -606,42 +787,47 @@ export const Footer = () => {
           >
             <div className="space-y-2">
               <h4 className="font-heading text-foreground font-bold">
-                Join Our Community
+                Publisher & Canonical
               </h4>
               <p className="text-muted-foreground text-sm">
-                Connect with thousands of zen-seekers on your mindfulness
-                journey.
+                Links to the official publisher and canonical landing page.
               </p>
             </div>
-            <a href="/join" className="w-full">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                data-testid="button-footer-cta"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-full px-6 py-3 font-bold shadow-lg transition-all hover:shadow-xl"
+            <div className="flex flex-col gap-3">
+              <a
+                href={PUBLISHER_URL}
+                className="text-muted-foreground hover:text-primary flex items-center gap-2 text-sm transition-colors"
+                target="_blank"
+                rel="noreferrer"
               >
-                Join the Clowder
-              </motion.button>
-            </a>
+                <Users className="h-4 w-4" />
+                Publisher
+              </a>
+              <a
+                href={CANONICAL_URL}
+                className="text-muted-foreground hover:text-primary flex items-center gap-2 text-sm transition-colors"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Network className="h-4 w-4" />
+                Canonical URL
+              </a>
+            </div>
           </motion.div>
         </div>
 
-        {/* Divider */}
         <div className="border-border/40 my-8 border-t" />
 
-        {/* Bottom: Copyright */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="text-muted-foreground/60 flex flex-col items-center justify-between gap-4 text-center text-xs md:flex-row"
         >
-          <p>
-            &copy; {new Date().getFullYear()} Fauzira Alpiandi. All rights
-            reserved.
-          </p>
+          <p>&copy; {new Date().getFullYear()} Ch4r0ne. All rights reserved.</p>
           <p className="flex items-center justify-center gap-1">
-            Built with <Heart className="h-3 w-3 text-red-400" /> for cat lovers
+            Built with <LifeBuoy className="h-3 w-3 text-red-400" /> for ASA
+            server operators
           </p>
         </motion.div>
       </div>
@@ -655,8 +841,10 @@ export default function Home() {
       <Navigation />
       <Hero />
       <Features />
-      <Community />
-      <QuoteSection />
+      <Quickstart />
+      <MultiInstance />
+      <Security />
+      <Faq />
       <section id="cta" className="px-6 py-24">
         <div className="mx-auto max-w-6xl">
           <motion.div
@@ -667,41 +855,42 @@ export default function Home() {
             className="mb-12 space-y-4 text-center"
           >
             <h2 className="font-heading text-foreground text-4xl font-bold md:text-5xl">
-              Ready to find your zen?
+              Ready to manage your ASA servers?
             </h2>
             <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-              Choose your path and start your zen journey today
+              Download the ARK Ascended Server Manager or open a feature request
+              on GitHub.
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {[
               {
-                id: 'cta-start-app',
-                title: 'Start Meditating',
+                id: 'cta-download',
+                title: 'Download Latest',
                 description:
-                  'Meditate with your inner cat. Start with our breathing timer and find your calm.',
-                href: '/app',
-                testId: 'button-cta-app',
-                icon: <Heart className="text-primary h-8 w-8" />,
+                  'Get the newest Windows build from GitHub Releases.',
+                href: DOWNLOAD_LATEST_URL,
+                testId: 'button-cta-download',
+                icon: <Download className="text-primary h-8 w-8" />,
               },
               {
-                id: 'cta-guide',
-                title: 'Start Learning',
+                id: 'cta-repo',
+                title: 'GitHub Repo',
                 description:
-                  'Learn the fundamentals of meditation. A step-by-step guide for beginners and beyond.',
-                href: '/guide',
-                testId: 'button-cta-guide',
-                icon: <BookOpen className="text-primary h-8 w-8" />,
+                  'Browse source, roadmap, and upcoming improvements.',
+                href: REPO_URL,
+                testId: 'button-cta-repo',
+                icon: <Github className="text-primary h-8 w-8" />,
               },
               {
-                id: 'cta-explore',
-                title: 'Explore More',
+                id: 'cta-issue',
+                title: 'Issue / Feature Request',
                 description:
-                  'Discover zen tips, breathing techniques, and daily affirmations to deepen your practice.',
-                href: '/explore',
-                testId: 'button-cta-explore',
-                icon: <Compass className="text-primary h-8 w-8" />,
+                  'Share feedback or request new functionality.',
+                href: ISSUE_URL,
+                testId: 'button-cta-issue',
+                icon: <LifeBuoy className="text-primary h-8 w-8" />,
               },
             ].map((cta, idx) => (
               <motion.div
@@ -722,7 +911,7 @@ export default function Home() {
                 <p className="text-muted-foreground flex-1">
                   {cta.description}
                 </p>
-                <a href={cta.href}>
+                <a href={cta.href} target="_blank" rel="noreferrer">
                   <button
                     data-testid={cta.testId}
                     className="bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer rounded-full px-6 py-2 text-sm font-bold shadow-md transition-colors"
