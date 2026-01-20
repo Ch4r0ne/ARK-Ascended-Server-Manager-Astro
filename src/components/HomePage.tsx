@@ -27,18 +27,10 @@ const LICENSE_URL =
   'https://github.com/Ch4r0ne/ARK-Ascended-Server-Manager/blob/main/LICENSE';
 const PUBLISHER_URL = 'https://github.com/Ch4r0ne';
 
-type RepoStats = {
-  stars: number;
-  forks: number;
-  openIssues: number;
-  updatedAt: string;
-};
-
-type ReleaseInfo = {
-  name: string;
-  tag: string;
-  publishedAt: string;
-  downloads: number;
+type GithubStats = {
+  repo: { stars: number; forks: number; openIssues: number; updatedAt: string } | null;
+  release: { name: string; tag: string; publishedAt: string; downloads: number } | null;
+  error: boolean;
 };
 
 const formatNumber = (value: number) => value.toLocaleString('de-DE');
@@ -219,113 +211,10 @@ const Navigation = () => {
   );
 };
 
-const Hero = () => {
-  const [repoStats, setRepoStats] = useState<RepoStats | null>(null);
-  const [releaseInfo, setReleaseInfo] = useState<ReleaseInfo | null>(null);
-  const [statsError, setStatsError] = useState(false);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    const loadGithubStats = async () => {
-      try {
-        const fetchAllReleases = async () => {
-          const releases: Array<{ assets?: Array<{ download_count: number }> }> =
-            [];
-          let page = 1;
-
-          while (true) {
-            const response = await fetch(
-              `https://api.github.com/repos/Ch4r0ne/ARK-Ascended-Server-Manager/releases?per_page=100&page=${page}`,
-              {
-                signal: controller.signal,
-              },
-            );
-
-            if (!response.ok) {
-              throw new Error('GitHub releases response not ok');
-            }
-
-            const pageData = (await response.json()) as Array<{
-              assets?: Array<{ download_count: number }>;
-            }>;
-
-            releases.push(...pageData);
-
-            if (pageData.length < 100) {
-              break;
-            }
-
-            page += 1;
-          }
-
-          return releases;
-        };
-
-        const [repoResponse, releaseResponse, releasesData] = await Promise.all([
-          fetch(`https://api.github.com/repos/Ch4r0ne/ARK-Ascended-Server-Manager`, {
-            signal: controller.signal,
-          }),
-          fetch(
-            `https://api.github.com/repos/Ch4r0ne/ARK-Ascended-Server-Manager/releases/latest`,
-            {
-              signal: controller.signal,
-            },
-          ),
-          fetchAllReleases(),
-        ]);
-
-        if (!repoResponse.ok || !releaseResponse.ok) {
-          throw new Error('GitHub API response not ok');
-        }
-
-        const repoData = (await repoResponse.json()) as {
-          stargazers_count: number;
-          forks_count: number;
-          open_issues_count: number;
-          updated_at: string;
-        };
-
-        const releaseData = (await releaseResponse.json()) as {
-          name: string;
-          tag_name: string;
-          published_at: string;
-          assets?: Array<{ download_count: number }>;
-        };
-
-        setRepoStats({
-          stars: repoData.stargazers_count,
-          forks: repoData.forks_count,
-          openIssues: repoData.open_issues_count,
-          updatedAt: repoData.updated_at,
-        });
-
-        const totalDownloads = releasesData.reduce((sum, release) => {
-          const releaseDownloads =
-            release.assets?.reduce(
-              (assetSum, asset) => assetSum + asset.download_count,
-              0,
-            ) ?? 0;
-          return sum + releaseDownloads;
-        }, 0);
-
-        setReleaseInfo({
-          name: releaseData.name || 'Latest Release',
-          tag: releaseData.tag_name,
-          publishedAt: releaseData.published_at,
-          downloads: totalDownloads,
-        });
-      } catch (error) {
-        if (!controller.signal.aborted) {
-          setStatsError(true);
-        }
-      }
-    };
-
-    loadGithubStats();
-
-    return () => controller.abort();
-  }, []);
+const Hero = ({ github }: { github: GithubStats }) => {
+  const repo = github.repo;
+  const release = github.release;
+  const hasError = github.error;
 
   return (
     <section
@@ -452,15 +341,14 @@ const Hero = () => {
             </div>
             <div>
               <p className="text-sm font-bold">GitHub Live-Status</p>
-              {repoStats ? (
+              {repo ? (
                 <p className="text-muted-foreground text-xs">
-                  {formatNumber(repoStats.stars)} Stars ·{' '}
-                  {formatNumber(repoStats.forks)} Forks ·{' '}
-                  {formatNumber(repoStats.openIssues)} Issues
+                  {formatNumber(repo.stars)} Stars · {formatNumber(repo.forks)} Forks ·{' '}
+                  {formatNumber(repo.openIssues)} Issues
                 </p>
               ) : (
                 <p className="text-muted-foreground text-xs">
-                  {statsError
+                  {hasError
                     ? 'Live-Daten derzeit nicht verfügbar.'
                     : 'Live-Daten werden geladen.'}
                 </p>
@@ -480,14 +368,14 @@ const Hero = () => {
             </div>
             <div>
               <p className="text-sm font-bold">Latest Release</p>
-              {releaseInfo ? (
+              {release ? (
                 <p className="text-muted-foreground text-xs">
-                  {releaseInfo.tag} · {formatDate(releaseInfo.publishedAt)} ·{' '}
-                  {formatNumber(releaseInfo.downloads)} Gesamt-Downloads
+                  {release.tag} · {formatDate(release.publishedAt)} ·{' '}
+                  {formatNumber(release.downloads)} Gesamt-Downloads
                 </p>
               ) : (
                 <p className="text-muted-foreground text-xs">
-                  {statsError
+                  {hasError
                     ? 'Release-Daten derzeit nicht verfügbar.'
                     : 'Release-Daten werden geladen.'}
                 </p>
@@ -1034,11 +922,11 @@ export const Footer = () => {
   );
 };
 
-export default function Home() {
+export default function HomePage({ github }: { github: GithubStats }) {
   return (
     <div className="bg-background selection:bg-primary/20 selection:text-primary-foreground min-h-screen">
       <Navigation />
-      <Hero />
+      <Hero github={github} />
       <Story />
       <Features />
       <Quickstart />
