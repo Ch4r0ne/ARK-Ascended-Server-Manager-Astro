@@ -11,6 +11,15 @@ const {
   noindex = false,
 } = Astro.props;
 
+/**
+ * Local fonts (DSGVO-safe, no Google requests)
+ * Using exact filenames verified in node_modules.
+ */
+import '@fontsource-variable/fredoka/wght.css';
+import '@fontsource-variable/nunito/wght.css';
+import '@fontsource-variable/nunito/wght-italic.css';
+import '@fontsource/patrick-hand/latin-400.css';
+import '@fontsource/patrick-hand/latin-ext-400.css';
 ---
 
 <!doctype html>
@@ -20,10 +29,14 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#E8A598" />
+
     {noindex ? (
-      <meta name="robots" content="noindex, nofollow" />
+      <meta name="robots" content="noindex, nofollow, noarchive" />
     ) : (
-      <meta name="robots" content="index, follow" />
+      <meta
+        name="robots"
+        content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+      />
     )}
 
     <link rel="icon" type="image/png" href="/images/favicon.png?v=4" />
@@ -32,12 +45,7 @@ const {
 
     <title>{title}</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Patrick+Hand&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Google Fonts removed (privacy + render-blocking fix) -->
 
     <script
       type="application/ld+json"
@@ -57,6 +65,7 @@ const {
       })}
     />
   </head>
+
   <body>
     <slot />
   </body>
@@ -93,8 +102,11 @@ const {
     --radius-lg: 1rem;
     --radius-xl: 1.5rem;
 
-    --font-sans: 'Nunito', sans-serif;
-    --font-heading: 'Fredoka', sans-serif;
+    /* Font tokens (now loaded locally) */
+    --font-sans: 'Nunito Variable', 'Nunito', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+      Arial, sans-serif;
+    --font-heading: 'Fredoka Variable', 'Fredoka', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+      Arial, sans-serif;
     --font-hand: 'Patrick Hand', cursive;
   }
 
@@ -151,30 +163,6 @@ const {
     h6 {
       @apply font-heading font-semibold tracking-tight;
     }
-  }
-
-  button,
-  a,
-  nav,
-  [role='button'],
-  .no-select {
-    @apply select-none;
-  }
-
-  [role='presentation'],
-  .pointer-none,
-  svg[aria-hidden='true'] {
-    pointer-events: none;
-  }
-
-  .absolute.blur-3xl,
-  [class*='blob'],
-  [class*='pattern'] {
-    @apply pointer-events-none;
-  }
-
-  svg:not([role='img']) {
-    pointer-events: none;
   }
 
   .font-hand {
