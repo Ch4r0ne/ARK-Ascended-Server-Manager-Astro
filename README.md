@@ -1,11 +1,9 @@
 # ARK ASA Server Manager Website
-
-Professionelle Landingpage für den **ARK Ascended Server Manager** auf Windows.  
-Die Seite ist auf klare Kommunikation, schnelle Downloads und Vertrauen in Releases optimiert.
+Landingpage für den **ARK Ascended Server Manager** auf Windows.  
 
 ## Highlights
 
-- **Marketing-ready Startseite** mit klaren Value-Statements und Story-Bereich.
+- **Startseite** mit klaren Value-Statements und Story-Bereich.
 - **Live GitHub Stats & Release-Daten** (Stars, Forks, Issues, Gesamt-Downloads).
 - **Modernes Astro + React Setup** mit Tailwind CSS und Framer Motion.
 
