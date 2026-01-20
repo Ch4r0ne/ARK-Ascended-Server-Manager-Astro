@@ -1,15 +1,21 @@
 {
-  "name": "purrfectly-zen",
+  "name": "asa-manager-site",
   "private": true,
-  "description": "Find your zen. One breath, one paw print at a time.",
+  "description": "ARK: Survival Ascended Server Manager – Website & Documentation (Astro).",
   "license": "MIT",
-  "author": "Fauzira Alpiandi <fauziralpiandi.dev@gmail.com>",
+  "author": "Technetpro (Tim Leinich)",
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=20.11.0"
+  },
   "scripts": {
     "astro": "astro",
-    "build": "astro build",
     "dev": "astro dev",
-    "format": "prettier --write .",
-    "preview": "astro preview"
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint:format": "prettier --check .",
+    "format": "prettier --write ."
   },
   "prettier": {
     "bracketSpacing": true,
