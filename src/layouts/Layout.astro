@@ -2,19 +2,15 @@
 interface Props {
   title?: string;
   description?: string;
-  canonicalPath?: string;
   noindex?: boolean;
 }
 
 const {
   title = 'ARK ASA Server Manager for Windows | Dedicated Server Manager',
   description = 'ARK ASA Server Manager for Windows ARK: Survival Ascended (ASA) dedicated servers',
-  canonicalPath = '',
   noindex = false,
 } = Astro.props;
 
-const siteUrl = Astro.site?.href || '';
-const canonicalUrl = `${siteUrl.replace(/\/$/, '')}${canonicalPath}`;
 ---
 
 <!doctype html>
@@ -30,10 +26,9 @@ const canonicalUrl = `${siteUrl.replace(/\/$/, '')}${canonicalPath}`;
       <meta name="robots" content="index, follow" />
     )}
 
-    <link rel="icon" type="image/png" href="/img/favicon.png?v=4" />
-    <link rel="shortcut icon" href="/img/favicon.png?v=4" />
-    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=4" />
-    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/png" href="/images/favicon.png?v=4" />
+    <link rel="shortcut icon" href="/images/favicon.png?v=4" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png?v=4" />
 
     <title>{title}</title>
 

@@ -26,7 +26,6 @@ const ISSUE_URL =
 const LICENSE_URL =
   'https://github.com/Ch4r0ne/ARK-Ascended-Server-Manager/blob/main/LICENSE';
 const PUBLISHER_URL = 'https://github.com/Ch4r0ne';
-const CANONICAL_URL = 'https://ch4r0ne.github.io/ARK-Ascended-Server-Manager/';
 
 type RepoStats = {
   stars: number;
@@ -101,7 +100,7 @@ const Navigation = () => {
         className="text-primary flex items-center gap-3 transition-opacity hover:opacity-80"
       >
         <img
-          src="/img/favicon.png"
+          src="/images/favicon.png"
           alt="ARK ASA Server Manager Icon"
           className="h-8 w-8"
         />
@@ -436,14 +435,16 @@ const Hero = () => {
           className="relative z-10"
         >
           <img
-            src="/img/ASA_Server_Manager_Preview_2.png"
+            src="/images/ASA_Server_Manager_Preview_2.png"
             alt="ARK ASA Server Manager UI preview"
-            className="h-auto w-full transform rounded-[3rem] shadow-2xl transition-transform duration-700 hover:rotate-0 md:rotate-2"
+            className="h-auto w-full transform rounded-xl shadow-2xl transition-transform duration-700 hover:rotate-0 md:rotate-2"
           />
 
           <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            whileHover={{ y: -4 }}
             className="bg-card absolute -bottom-8 -left-4 flex max-w-[220px] items-center gap-3 rounded-2xl p-4 shadow-lg md:left-10"
           >
             <div className="rounded-full bg-green-100 p-2 text-green-600">
@@ -468,13 +469,10 @@ const Hero = () => {
           </motion.div>
 
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{
-              repeat: Infinity,
-              duration: 4,
-              ease: 'easeInOut',
-              delay: 0.5,
-            }}
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
+            whileHover={{ y: 4 }}
             className="bg-card absolute -top-4 -right-4 flex max-w-[220px] items-center gap-3 rounded-2xl p-4 shadow-lg md:-right-8"
           >
             <div className="rounded-full bg-blue-100 p-2 text-blue-600">
@@ -904,7 +902,7 @@ export const Footer = () => {
           >
             <div className="flex items-center gap-3">
               <img
-                src="/img/favicon.png"
+                src="/images/favicon.png"
                 alt="ARK ASA Server Manager Icon"
                 className="h-7 w-7"
               />
@@ -985,10 +983,10 @@ export const Footer = () => {
           >
             <div className="space-y-2">
               <h4 className="font-heading text-foreground font-bold">
-                Publisher & Canonical
+                Publisher
               </h4>
               <p className="text-muted-foreground text-sm">
-                Links to the official publisher and canonical landing page.
+                Link to the official publisher profile.
               </p>
             </div>
             <div className="flex flex-col gap-3">
@@ -1000,15 +998,6 @@ export const Footer = () => {
               >
                 <Users className="h-4 w-4" />
                 Publisher
-              </a>
-              <a
-                href={CANONICAL_URL}
-                className="text-muted-foreground hover:text-primary flex items-center gap-2 text-sm transition-colors"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Network className="h-4 w-4" />
-                Canonical URL
               </a>
             </div>
           </motion.div>
