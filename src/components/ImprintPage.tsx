@@ -24,11 +24,9 @@ export default function ImprintPage() {
         >
           <div>
             <h1 className="font-heading text-foreground mb-4 text-4xl font-bold md:text-5xl">
-              Imprint (Impressum)
+              Impressum
             </h1>
-            <p className="text-muted-foreground">
-              Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).
-            </p>
+            <p className="text-muted-foreground">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).</p>
           </div>
 
           <div className="bg-card rounded-[2rem] border-none shadow-lg">
@@ -48,16 +46,24 @@ export default function ImprintPage() {
 
               <section className="space-y-3">
                 <h2 className="font-heading text-foreground text-xl font-bold">Kontakt</h2>
+                <p className="text-muted-foreground">E-Mail: legal@technetpro.de</p>
+              </section>
+
+              <section className="space-y-3">
+                <h2 className="font-heading text-foreground text-xl font-bold">
+                  Verantwortlich für den Inhalt
+                </h2>
                 <p className="text-muted-foreground">
-                  E-Mail: legal@technetpro.de
+                  Verantwortlich gemäß § 18 Abs. 2 MStV:
                   <br />
+                  Tim Leinich, Anschrift wie oben.
                 </p>
               </section>
 
               <section className="space-y-3">
                 <h2 className="font-heading text-foreground text-xl font-bold">Projekt</h2>
                 <p className="text-muted-foreground">
-                  ARK ASA Server Manager Community/Open-Source Projekt.
+                  ARK ASA Server Manager Community/Open-Source-Projekt.
                   <br />
                   Repository:{' '}
                   <a
@@ -83,7 +89,7 @@ export default function ImprintPage() {
               </section>
 
               <div className="border-border/40 text-muted-foreground border-t pt-4 text-sm">
-                Stand: 20.01.2026
+                Stand: 08.03.2025
               </div>
             </div>
           </div>
