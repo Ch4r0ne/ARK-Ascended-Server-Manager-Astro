@@ -24,12 +24,12 @@ export default function PrivacyPolicyPage() {
         >
           <div>
             <h1 className="font-heading text-foreground mb-4 text-4xl font-bold md:text-5xl">
-              Privacy Policy (Datenschutzerklärung)
+              Datenschutzerklärung
             </h1>
             <p className="text-muted-foreground">
-              Der Schutz deiner Daten ist mir wichtig. Nachfolgend informiere ich dich darüber,
-              welche personenbezogenen Daten beim Besuch dieser Website verarbeitet werden und zu
-              welchen Zwecken.
+              Der Schutz deiner Daten ist wichtig. Nachfolgend informiere ich dich gemäß Art. 13
+              DSGVO darüber, welche personenbezogenen Daten bei der Nutzung dieser Website
+              verarbeitet werden, zu welchen Zwecken und auf welcher Rechtsgrundlage.
             </p>
           </div>
 
@@ -57,32 +57,51 @@ export default function PrivacyPolicyPage() {
                   2. Hosting über GitHub Pages &amp; Server-Logfiles
                 </h2>
                 <p className="text-muted-foreground">
-                  Diese Website wird über GitHub Pages bereitgestellt (GitHub). Beim Besuch einer
-                  GitHub-Pages-Website wird die IP-Adresse der Besucherinnen und Besucher geloggt
-                  und zu Sicherheitszwecken gespeichert. Weitere Informationen findest du in der
-                  GitHub Privacy Statement.
+                  Diese Website wird über GitHub Pages bereitgestellt (GitHub, Inc.). Beim Zugriff
+                  werden Server-Logfiles verarbeitet, die insbesondere die IP-Adresse, Datum und
+                  Uhrzeit des Abrufs, abgerufene Datei, Referrer-URL und User-Agent enthalten
+                  können. Weitere Informationen findest du im{' '}
+                  <a
+                    href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement"
+                    className="text-primary underline"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    GitHub Privacy Statement
+                  </a>
+                  .
                 </p>
                 <p className="text-muted-foreground">
-                  Zweck: Betrieb, Auslieferung, Stabilität, Fehleranalyse sowie Schutz vor
-                  Missbrauch/Angriffen.
+                  Zweck: Bereitstellung der Website, Gewährleistung von Stabilität und Sicherheit,
+                  Fehleranalyse sowie Abwehr von Missbrauch.
                   <br />
-                  Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren
-                  Betrieb).
+                  Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse).
                   <br />
-                  Hinweis Drittland: GitHub verarbeitet Daten auch in den USA; GitHub gibt an, nach
-                  dem EU-U.S. Data Privacy Framework (DPF) zertifiziert zu sein.
+                  Empfänger: GitHub, Inc. als Hostingdienstleister.
+                  <br />
+                  Drittlandtransfer: Eine Verarbeitung in den USA kann erfolgen. GitHub gibt an,
+                  nach dem EU-U.S. Data Privacy Framework (DPF) zertifiziert zu sein.
+                </p>
+                <p className="text-muted-foreground">
+                  Speicherdauer: Logdaten werden durch GitHub nach deren Vorgaben gespeichert und
+                  gelöscht.
                 </p>
               </section>
 
               <section className="space-y-3">
                 <h2 className="font-heading text-foreground text-xl font-bold">3. Kontaktaufnahme</h2>
                 <p className="text-muted-foreground">
-                  Wenn du mich per E-Mail kontaktierst, verarbeite ich deine Angaben
-                  (E-Mail-Adresse, Inhalt der Nachricht) ausschließlich zur Bearbeitung der Anfrage.
+                  Wenn du mich per E-Mail kontaktierst, verarbeite ich die von dir übermittelten
+                  Daten (E-Mail-Adresse, Name soweit angegeben, Inhalt der Nachricht) ausschließlich
+                  zur Bearbeitung deiner Anfrage.
                 </p>
                 <p className="text-muted-foreground">
-                  Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Anfrage/Kommunikation) oder Art. 6
-                  Abs. 1 lit. f DSGVO.
+                  Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche/vertragliche
+                  Kommunikation) oder Art. 6 Abs. 1 lit. f DSGVO (allgemeine Kommunikation).
+                </p>
+                <p className="text-muted-foreground">
+                  Speicherdauer: Die Daten werden gelöscht, sobald die Anfrage abschließend
+                  bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten bestehen.
                 </p>
               </section>
 
@@ -92,7 +111,8 @@ export default function PrivacyPolicyPage() {
                 </h2>
                 <p className="text-muted-foreground">
                   Diese Website verlinkt auf GitHub (z. B. Repository, Releases). Beim Anklicken
-                  eines Links gelten die Datenschutzbestimmungen von GitHub.
+                  eines Links werden Daten an GitHub übermittelt; es gelten dann die
+                  Datenschutzbestimmungen von GitHub.
                 </p>
               </section>
 
@@ -101,16 +121,16 @@ export default function PrivacyPolicyPage() {
                   5. GitHub Live-Daten (nur relevant, wenn clientseitig geladen)
                 </h2>
                 <p className="text-muted-foreground">
-                  Sofern auf der Website Projekt-Live-Daten (z. B. Stars/Release-Infos/Status)
-                  clientseitig von GitHub geladen werden, kann dabei u. a. die IP-Adresse an GitHub
-                  übermittelt werden.
+                  Sofern auf der Website Projekt-Live-Daten (z. B. Stars, Release-Informationen oder
+                  Status) clientseitig von GitHub geladen werden, kann dabei u. a. die IP-Adresse an
+                  GitHub übermittelt werden.
                 </p>
                 <p className="text-muted-foreground">
                   Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an aktueller
                   Projektdarstellung).
                   <br />
-                  Hinweis: Wenn Live-Daten build-time geholt und statisch ausgeliefert werden, kann
-                  dieser Abschnitt entfallen.
+                  Hinweis: Wenn Live-Daten ausschließlich build-time geholt und statisch ausgeliefert
+                  werden, kann dieser Abschnitt entfallen.
                 </p>
               </section>
 
@@ -120,13 +140,13 @@ export default function PrivacyPolicyPage() {
                 </h2>
                 <p className="text-muted-foreground">
                   Soweit diese Website Funktionen nutzt, die Daten lokal im Browser speichern (z. B.
-                  UI-Einstellungen), verbleiben diese Daten auf deinem Endgerät und werden nicht
-                  automatisch an mich übermittelt.
+                  UI-Einstellungen), verbleiben diese Informationen auf deinem Endgerät und werden
+                  nicht automatisch an mich übermittelt.
                 </p>
                 <p className="text-muted-foreground">
-                  Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an
-                  nutzerfreundlicher Bereitstellung) oder Art. 6 Abs. 1 lit. b DSGVO (wenn für eine
-                  von dir gewünschte Funktion erforderlich).
+                  Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer
+                  nutzerfreundlichen Bereitstellung) oder Art. 6 Abs. 1 lit. b DSGVO (Erfüllung einer
+                  von dir gewünschten Funktion).
                 </p>
               </section>
 
@@ -136,8 +156,8 @@ export default function PrivacyPolicyPage() {
                 </h2>
                 <p className="text-muted-foreground">
                   Diese Website setzt nach aktuellem Stand keine Analyse- oder Marketing-Cookies
-                  ein. Für nicht technisch erforderliche Cookies/Technologien wäre eine Einwilligung
-                  nach § 25 TDDDG erforderlich.
+                  ein. Für nicht technisch erforderliche Cookies oder vergleichbare Technologien
+                  wäre eine Einwilligung nach § 25 TDDDG erforderlich.
                 </p>
               </section>
 
@@ -148,22 +168,36 @@ export default function PrivacyPolicyPage() {
                 <p className="text-muted-foreground">
                   Du hast das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung
                   (Art. 17), Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20) sowie
-                  Widerspruch (Art. 21). Zudem hast du ein Beschwerderecht bei einer
-                  Aufsichtsbehörde (Art. 77 DSGVO).
+                  Widerspruch (Art. 21). Außerdem kannst du dich bei einer Aufsichtsbehörde
+                  beschweren (Art. 77 DSGVO).
+                </p>
+                <p className="text-muted-foreground">
+                  Sofern eine Verarbeitung auf deiner Einwilligung beruht, kannst du diese jederzeit
+                  mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3 DSGVO).
                 </p>
               </section>
 
               <section className="space-y-3">
                 <h2 className="font-heading text-foreground text-xl font-bold">9. Datensicherheit</h2>
                 <p className="text-muted-foreground">
-                  Die Übertragung erfolgt verschlüsselt (HTTPS/TLS). Zusätzlich setze ich
-                  angemessene technische und organisatorische Maßnahmen zur Absicherung der Website
-                  ein.
+                  Die Übertragung erfolgt verschlüsselt (HTTPS/TLS). Darüber hinaus setze ich
+                  angemessene technische und organisatorische Maßnahmen ein, um die Website zu
+                  schützen.
+                </p>
+              </section>
+
+              <section className="space-y-3">
+                <h2 className="font-heading text-foreground text-xl font-bold">
+                  10. Keine automatisierte Entscheidungsfindung
+                </h2>
+                <p className="text-muted-foreground">
+                  Eine automatisierte Entscheidungsfindung einschließlich Profiling gemäß Art. 22
+                  DSGVO findet nicht statt.
                 </p>
               </section>
 
               <div className="border-border/40 text-muted-foreground border-t pt-4 text-sm">
-                Stand: 20.01.2026
+                Stand: 25.01.2026
               </div>
             </div>
           </div>

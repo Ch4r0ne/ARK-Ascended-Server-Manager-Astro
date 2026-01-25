@@ -24,11 +24,9 @@ export default function ImprintPage() {
         >
           <div>
             <h1 className="font-heading text-foreground mb-4 text-4xl font-bold md:text-5xl">
-              Imprint (Impressum)
+              Impressum
             </h1>
-            <p className="text-muted-foreground">
-              Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).
-            </p>
+            <p className="text-muted-foreground">Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).</p>
           </div>
 
           <div className="bg-card rounded-[2rem] border-none shadow-lg">
@@ -48,16 +46,24 @@ export default function ImprintPage() {
 
               <section className="space-y-3">
                 <h2 className="font-heading text-foreground text-xl font-bold">Kontakt</h2>
+                <p className="text-muted-foreground">E-Mail: legal@technetpro.de</p>
+              </section>
+
+              <section className="space-y-3">
+                <h2 className="font-heading text-foreground text-xl font-bold">
+                  Verantwortlich für den Inhalt
+                </h2>
                 <p className="text-muted-foreground">
-                  E-Mail: legal@technetpro.de
+                  Verantwortlich gemäß § 18 Abs. 2 MStV:
                   <br />
+                  Tim Leinich, Anschrift wie oben.
                 </p>
               </section>
 
               <section className="space-y-3">
                 <h2 className="font-heading text-foreground text-xl font-bold">Projekt</h2>
                 <p className="text-muted-foreground">
-                  ARK ASA Server Manager Community/Open-Source Projekt.
+                  ARK ASA Server Manager Community/Open-Source-Projekt.
                   <br />
                   Repository:{' '}
                   <a
@@ -82,8 +88,47 @@ export default function ImprintPage() {
                 </p>
               </section>
 
+              <section className="space-y-3">
+                <h2 className="font-heading text-foreground text-xl font-bold">
+                  Haftung für Inhalte
+                </h2>
+                <p className="text-muted-foreground">
+                  Als Diensteanbieter bin ich gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen
+                  Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich
+                  als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte
+                  fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine
+                  rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung
+                  der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon
+                  unberührt.
+                </p>
+              </section>
+
+              <section className="space-y-3">
+                <h2 className="font-heading text-foreground text-xl font-bold">
+                  Haftung für Links
+                </h2>
+                <p className="text-muted-foreground">
+                  Diese Website enthält Links zu externen Websites Dritter, auf deren Inhalte ich
+                  keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte keine Gewähr
+                  übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter
+                  oder Betreiber der Seiten verantwortlich. Bei Bekanntwerden von Rechtsverletzungen
+                  werde ich derartige Links umgehend entfernen.
+                </p>
+              </section>
+
+              <section className="space-y-3">
+                <h2 className="font-heading text-foreground text-xl font-bold">Urheberrecht</h2>
+                <p className="text-muted-foreground">
+                  Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten
+                  unterliegen dem deutschen Urheberrecht. Beiträge Dritter sind als solche
+                  gekennzeichnet. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der
+                  Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen
+                  Zustimmung des jeweiligen Autors bzw. Erstellers.
+                </p>
+              </section>
+
               <div className="border-border/40 text-muted-foreground border-t pt-4 text-sm">
-                Stand: 20.01.2026
+                Stand: 25.01.2026
               </div>
             </div>
           </div>
