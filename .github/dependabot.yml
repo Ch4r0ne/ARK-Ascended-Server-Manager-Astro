@@ -1,28 +1,87 @@
-name: Dependabot auto-merge
+version: 2
 
-on:
-  pull_request:
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    target-branch: "main"
 
-permissions:
-  contents: write
-  pull-requests: write
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:15"
+      timezone: "Europe/Berlin"
 
-jobs:
-  automerge:
-    if: github.event.pull_request.user.login == 'dependabot[bot]'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dependabot metadata
-        id: meta
-        uses: dependabot/fetch-metadata@v2
-        with:
-          github-token: ${{ secrets.DEPENDABOT_MERGE_TOKEN || github.token }}
+    open-pull-requests-limit: 5
+    rebase-strategy: "auto"
 
-      - name: Enable auto-merge for patch/minor only
-        if: |
-          steps.meta.outputs.update-type == 'version-update:semver-patch' ||
-          steps.meta.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr merge --auto --merge "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.DEPENDABOT_MERGE_TOKEN || github.token }}
+    labels:
+      - "dependencies"
+
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+    groups:
+      astro:
+        patterns:
+          - "astro"
+          - "@astrojs/*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react*"
+          - "@types/react-dom"
+      ui:
+        patterns:
+          - "framer-motion"
+          - "lucide-react"
+          - "clsx"
+          - "tailwind-merge"
+      tooling:
+        patterns:
+          - "typescript"
+          - "@types/node"
+          - "prettier"
+          - "prettier-plugin-*"
+          - "tailwindcss"
+          - "@tailwindcss/*"
+
+    ignore:
+      # keep majors manual for stability
+      - dependency-name: "astro"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "tailwindcss"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+
+  # GitHub Actions (your workflows live under .github/workflows)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "main"
+
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:25"
+      timezone: "Europe/Berlin"
+
+    open-pull-requests-limit: 2
+    rebase-strategy: "auto"
+
+    labels:
+      - "dependencies"
+
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+    groups:
+      actions:
+        patterns:
+          - "*"
