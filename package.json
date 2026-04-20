@@ -34,7 +34,7 @@
     ]
   },
   "dependencies": {
-    "@astrojs/react": "^4.4.2",
+    "@astrojs/react": "^5.0.3",
     "@fontsource-variable/fredoka": "^5.2.10",
     "@fontsource-variable/nunito": "^5.2.7",
     "@fontsource/inter": "^5.2.8",
